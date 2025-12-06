@@ -53,7 +53,7 @@ app.post("/api/auth", async (req, res): Promise<Response> => {
       if (error.code == "INVALID_PASSWORD") {
          return res.status(401).json({ message: error.message });
       }
-      return res.status(500).json({ message: "Internal Server Error." });
+      return res.status(500).json({ message: "Internal Server Error.", hint: error });
    }
 });
 
@@ -61,13 +61,37 @@ app.post("/api/users/create", async (req, res): Promise<Response> => {
    if (!req.body) {
       return res.status(500).json({ message: "Invalid request." });
    }
-   const { email, name, username, password: req_password } = req.body as InterfaceUserCreate;
-   const password: string = await bcrypt.hash(req_password, 10);
-   const createuser = await PrismaConnect.user.create({
-      data: { email, name, username, password },
-      select: { username: true, email: true, createdAt: true },
-   });
-   return res.status(200).json({ message: "OK", data: createuser });
+   try {
+      const { email, name, username, password: req_password } = req.body as InterfaceUserCreate;
+      const password: string = await bcrypt.hash(req_password, 10);
+      const createuser = await PrismaConnect.user.create({
+         data: { email, name, username, password },
+         select: { username: true, email: true, createdAt: true },
+      });
+      return res.status(200).json({ message: "OK", data: createuser });
+   } catch (error) {
+      return res.status(500).json({ message: "Internal Server Error.", hint: error });
+   }
 });
 
+app.post("/api/product/create", async (req, res): Promise<Response> => {
+   if (!req.body) {
+      return res.status(500).json({ message: "Invalid request." });
+   }
+   const data = req.body;
+   try {
+      const createproduct = await PrismaConnect.product.createMany({ data: data });
+      return res.status(200).json({ message: "OK", data: createproduct });
+   } catch (error) {
+      return res.status(500).json({ message: "Internal Server Error.", hint: error });
+   }
+});
+app.get("/api/product", async (req, res): Promise<Response> => {
+   try {
+      const products = await PrismaConnect.product.findMany();
+      return res.status(200).json({ message: "OK", data: products });
+   } catch (error) {
+      return res.status(500).json({ message: "Internal Server Error.", hint: error });
+   }
+});
 export default app;

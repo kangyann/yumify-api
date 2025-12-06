@@ -5,13 +5,13 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider   = "prisma-client"
+  output     = "../generated/prisma"
   engineType = "client"
 }
 
 datasource db {
-  provider  = "postgresql"
+  provider = "postgresql"
 }
 
 model User {
@@ -19,6 +19,15 @@ model User {
   name      String
   email     String   @unique
   username  String   @unique
-  password  String  
+  password  String
   createdAt DateTime @default(now())
+}
+
+model Product {
+  id           Int      @id @default(autoincrement())
+  productName  String   @db.VarChar(32)
+  productImage String   @db.Text
+  productPrice Int      @db.Integer
+  productType  String   @db.VarChar(16)
+  createdAt    DateTime @default(now())
 }
