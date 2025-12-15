@@ -14,7 +14,7 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
+model Users {
   id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
@@ -23,11 +23,43 @@ model User {
   createdAt DateTime @default(now())
 }
 
-model Product {
-  id           Int      @id @default(autoincrement())
-  productName  String   @db.VarChar(32)
-  productImage String   @db.Text
-  productPrice Int      @db.Integer
-  productType  String   @db.VarChar(16)
-  createdAt    DateTime @default(now())
+model Products {
+  id                   Int                   @id @default(autoincrement())
+  productName          String                @unique @db.VarChar(32)
+  productImage         String                @db.Text
+  productPrice         Int                   @db.Integer
+  productType          String                @db.VarChar(16)
+  createdAt            DateTime              @default(now())
+  productsTransactions ProductsTransaction[]
+}
+
+model Payments {
+  id           Int            @id @default(autoincrement())
+  paymentName  String         @db.VarChar(16)
+  paymentCode  String         @unique @db.VarChar(6)
+  status       Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  transactions Transactions[]
+}
+
+model ProductsTransaction {
+  id              Int          @id @default(autoincrement())
+  productId       Products     @relation(fields: [productsId], references: [id])
+  productsId      Int
+  productQuantity Int          @db.Integer
+  totalPrice      Int          @db.Integer
+  transactionId   Transactions @relation(fields: [transactionsId], references: [id])
+  transactionsId  Int
+}
+
+model Transactions {
+  id                   Int                   @id @default(autoincrement())
+  invoiceNumber        String                @unique @db.VarChar(16)
+  paymentString        String                @db.Text
+  paymentId            Payments              @relation(fields: [paymentsId], references: [id])
+  createdAt            DateTime              @default(now())
+  paymentsId           Int
+  totalPrice           Int                   @db.Integer
+  status               String                @db.VarChar(16)
+  productsTransactions ProductsTransaction[]
 }
