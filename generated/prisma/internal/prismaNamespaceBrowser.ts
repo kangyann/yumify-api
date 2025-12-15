@@ -51,8 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User',
-  Product: 'Product'
+  Users: 'Users',
+  Products: 'Products',
+  Payments: 'Payments',
+  ProductsTransaction: 'ProductsTransaction',
+  Transactions: 'Transactions'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,7 +74,7 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UserScalarFieldEnum = {
+export const UsersScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
@@ -80,10 +83,10 @@ export const UserScalarFieldEnum = {
   createdAt: 'createdAt'
 } as const
 
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
 
 
-export const ProductScalarFieldEnum = {
+export const ProductsScalarFieldEnum = {
   id: 'id',
   productName: 'productName',
   productImage: 'productImage',
@@ -92,7 +95,42 @@ export const ProductScalarFieldEnum = {
   createdAt: 'createdAt'
 } as const
 
-export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+export type ProductsScalarFieldEnum = (typeof ProductsScalarFieldEnum)[keyof typeof ProductsScalarFieldEnum]
+
+
+export const PaymentsScalarFieldEnum = {
+  id: 'id',
+  paymentName: 'paymentName',
+  paymentCode: 'paymentCode',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type PaymentsScalarFieldEnum = (typeof PaymentsScalarFieldEnum)[keyof typeof PaymentsScalarFieldEnum]
+
+
+export const ProductsTransactionScalarFieldEnum = {
+  id: 'id',
+  productsId: 'productsId',
+  productQuantity: 'productQuantity',
+  totalPrice: 'totalPrice',
+  transactionsId: 'transactionsId'
+} as const
+
+export type ProductsTransactionScalarFieldEnum = (typeof ProductsTransactionScalarFieldEnum)[keyof typeof ProductsTransactionScalarFieldEnum]
+
+
+export const TransactionsScalarFieldEnum = {
+  id: 'id',
+  invoiceNumber: 'invoiceNumber',
+  paymentString: 'paymentString',
+  createdAt: 'createdAt',
+  paymentsId: 'paymentsId',
+  totalPrice: 'totalPrice',
+  status: 'status'
+} as const
+
+export type TransactionsScalarFieldEnum = (typeof TransactionsScalarFieldEnum)[keyof typeof TransactionsScalarFieldEnum]
 
 
 export const SortOrder = {
