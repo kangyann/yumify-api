@@ -57,9 +57,10 @@ model Transactions {
   invoiceNumber        String                @unique @db.VarChar(16)
   paymentString        String                @db.Text
   paymentId            Payments              @relation(fields: [paymentsId], references: [id])
-  createdAt            DateTime              @default(now())
   paymentsId           Int
   totalPrice           Int                   @db.Integer
   status               String                @db.VarChar(16)
+  createdAt            DateTime              @default(now())
+  expireAt             DateTime?
   productsTransactions ProductsTransaction[]
 }
