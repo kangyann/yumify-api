@@ -153,6 +153,15 @@ app.post("/api/transaction", async (req, res): Promise<Response> => {
                totalPrice: data.totalPriceAll,
                productsTransactions: { createMany: { data: ProductsTransaction } },
             },
+            select: {
+               invoiceNumber: true,
+               paymentString: true,
+               totalPrice: true,
+               status: true,
+               createdAt: true,
+               expireAt: true,
+               paymentId: { select: { paymentName: true } },
+            },
          });
 
          return res.status(200).json({ message: "Transaction created successfully.", data: createTransactions });
@@ -174,12 +183,33 @@ app.get("/api/transaction", async (req, res): Promise<Response> => {
    try {
       const transaction = await PrismaConnect.transactions.findFirstOrThrow({
          where: { invoiceNumber: invoices as string },
-         include: { productsTransactions: true, paymentId: true },
+         include: {
+            paymentId: { select: { paymentName: true } },
+            productsTransactions: {
+               select: {
+                  productQuantity: true,
+                  totalPrice: true,
+                  productId: {
+                     select: { productName: true, productPrice: true, productImage: true, productType: true },
+                  },
+               },
+            },
+         },
       });
-      return res.status(200).json({ transaction });
+      return res.status(200).json({ message: "Get Transaction Successfully.", data: transaction });
    } catch (error) {
+      console.log(error);
       return res.status(500).json({ message: "Internal Server Error.", hint: error });
    }
+});
+
+app.get("/api/payments", async (_req, res): Promise<Response> => {
+   return res.status(200).json({
+      message: "Get Payments Successfully.",
+      data: await PrismaConnect.payments.findMany({
+         select: { paymentCode: true, paymentName: true, status: true },
+      }),
+   });
 });
 
 export default app;
