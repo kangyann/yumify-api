@@ -109,15 +109,15 @@ app.get("/api/product", async (req, res): Promise<Response> => {
 });
 
 app.post("/api/transaction", async (req, res): Promise<Response> => {
-   const data: { paymentCode: string; productData: {}[]; totalPriceAll: number } = req.body;
+   const data: { paymentName: string; productData: {}[]; totalPriceAll: number } = req.body;
 
-   if (!data || !data.paymentCode || !data.productData || !data.totalPriceAll) {
+   if (!data || !data.paymentName || !data.productData || !data.totalPriceAll) {
       return res.status(400).json({ message: "Invalid request body." });
    }
 
    try {
       const { id: paymentId }: { id: number } = await PrismaConnect.payments.findFirstOrThrow({
-         where: { paymentCode: data.paymentCode },
+         where: { paymentName: data.paymentName },
          select: { id: true },
       });
 
