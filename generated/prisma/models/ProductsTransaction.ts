@@ -48,6 +48,7 @@ export type ProductsTransactionMinAggregateOutputType = {
   productQuantity: number | null
   totalPrice: number | null
   transactionsId: number | null
+  transactionStatus: string | null
 }
 
 export type ProductsTransactionMaxAggregateOutputType = {
@@ -56,6 +57,7 @@ export type ProductsTransactionMaxAggregateOutputType = {
   productQuantity: number | null
   totalPrice: number | null
   transactionsId: number | null
+  transactionStatus: string | null
 }
 
 export type ProductsTransactionCountAggregateOutputType = {
@@ -64,6 +66,7 @@ export type ProductsTransactionCountAggregateOutputType = {
   productQuantity: number
   totalPrice: number
   transactionsId: number
+  transactionStatus: number
   _all: number
 }
 
@@ -90,6 +93,7 @@ export type ProductsTransactionMinAggregateInputType = {
   productQuantity?: true
   totalPrice?: true
   transactionsId?: true
+  transactionStatus?: true
 }
 
 export type ProductsTransactionMaxAggregateInputType = {
@@ -98,6 +102,7 @@ export type ProductsTransactionMaxAggregateInputType = {
   productQuantity?: true
   totalPrice?: true
   transactionsId?: true
+  transactionStatus?: true
 }
 
 export type ProductsTransactionCountAggregateInputType = {
@@ -106,6 +111,7 @@ export type ProductsTransactionCountAggregateInputType = {
   productQuantity?: true
   totalPrice?: true
   transactionsId?: true
+  transactionStatus?: true
   _all?: true
 }
 
@@ -201,6 +207,7 @@ export type ProductsTransactionGroupByOutputType = {
   productQuantity: number
   totalPrice: number
   transactionsId: number
+  transactionStatus: string | null
   _count: ProductsTransactionCountAggregateOutputType | null
   _avg: ProductsTransactionAvgAggregateOutputType | null
   _sum: ProductsTransactionSumAggregateOutputType | null
@@ -232,6 +239,7 @@ export type ProductsTransactionWhereInput = {
   productQuantity?: Prisma.IntFilter<"ProductsTransaction"> | number
   totalPrice?: Prisma.IntFilter<"ProductsTransaction"> | number
   transactionsId?: Prisma.IntFilter<"ProductsTransaction"> | number
+  transactionStatus?: Prisma.StringNullableFilter<"ProductsTransaction"> | string | null
   productId?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.ProductsWhereInput>
   transactionId?: Prisma.XOR<Prisma.TransactionsScalarRelationFilter, Prisma.TransactionsWhereInput>
 }
@@ -242,6 +250,7 @@ export type ProductsTransactionOrderByWithRelationInput = {
   productQuantity?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   transactionsId?: Prisma.SortOrder
+  transactionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   productId?: Prisma.ProductsOrderByWithRelationInput
   transactionId?: Prisma.TransactionsOrderByWithRelationInput
 }
@@ -255,6 +264,7 @@ export type ProductsTransactionWhereUniqueInput = Prisma.AtLeast<{
   productQuantity?: Prisma.IntFilter<"ProductsTransaction"> | number
   totalPrice?: Prisma.IntFilter<"ProductsTransaction"> | number
   transactionsId?: Prisma.IntFilter<"ProductsTransaction"> | number
+  transactionStatus?: Prisma.StringNullableFilter<"ProductsTransaction"> | string | null
   productId?: Prisma.XOR<Prisma.ProductsScalarRelationFilter, Prisma.ProductsWhereInput>
   transactionId?: Prisma.XOR<Prisma.TransactionsScalarRelationFilter, Prisma.TransactionsWhereInput>
 }, "id">
@@ -265,6 +275,7 @@ export type ProductsTransactionOrderByWithAggregationInput = {
   productQuantity?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   transactionsId?: Prisma.SortOrder
+  transactionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProductsTransactionCountOrderByAggregateInput
   _avg?: Prisma.ProductsTransactionAvgOrderByAggregateInput
   _max?: Prisma.ProductsTransactionMaxOrderByAggregateInput
@@ -281,11 +292,13 @@ export type ProductsTransactionScalarWhereWithAggregatesInput = {
   productQuantity?: Prisma.IntWithAggregatesFilter<"ProductsTransaction"> | number
   totalPrice?: Prisma.IntWithAggregatesFilter<"ProductsTransaction"> | number
   transactionsId?: Prisma.IntWithAggregatesFilter<"ProductsTransaction"> | number
+  transactionStatus?: Prisma.StringNullableWithAggregatesFilter<"ProductsTransaction"> | string | null
 }
 
 export type ProductsTransactionCreateInput = {
   productQuantity: number
   totalPrice: number
+  transactionStatus?: string | null
   productId: Prisma.ProductsCreateNestedOneWithoutProductsTransactionsInput
   transactionId: Prisma.TransactionsCreateNestedOneWithoutProductsTransactionsInput
 }
@@ -296,11 +309,13 @@ export type ProductsTransactionUncheckedCreateInput = {
   productQuantity: number
   totalPrice: number
   transactionsId: number
+  transactionStatus?: string | null
 }
 
 export type ProductsTransactionUpdateInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.ProductsUpdateOneRequiredWithoutProductsTransactionsNestedInput
   transactionId?: Prisma.TransactionsUpdateOneRequiredWithoutProductsTransactionsNestedInput
 }
@@ -311,6 +326,7 @@ export type ProductsTransactionUncheckedUpdateInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   transactionsId?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProductsTransactionCreateManyInput = {
@@ -319,11 +335,13 @@ export type ProductsTransactionCreateManyInput = {
   productQuantity: number
   totalPrice: number
   transactionsId: number
+  transactionStatus?: string | null
 }
 
 export type ProductsTransactionUpdateManyMutationInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProductsTransactionUncheckedUpdateManyInput = {
@@ -332,6 +350,7 @@ export type ProductsTransactionUncheckedUpdateManyInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   transactionsId?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProductsTransactionListRelationFilter = {
@@ -350,6 +369,7 @@ export type ProductsTransactionCountOrderByAggregateInput = {
   productQuantity?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   transactionsId?: Prisma.SortOrder
+  transactionStatus?: Prisma.SortOrder
 }
 
 export type ProductsTransactionAvgOrderByAggregateInput = {
@@ -366,6 +386,7 @@ export type ProductsTransactionMaxOrderByAggregateInput = {
   productQuantity?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   transactionsId?: Prisma.SortOrder
+  transactionStatus?: Prisma.SortOrder
 }
 
 export type ProductsTransactionMinOrderByAggregateInput = {
@@ -374,6 +395,7 @@ export type ProductsTransactionMinOrderByAggregateInput = {
   productQuantity?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   transactionsId?: Prisma.SortOrder
+  transactionStatus?: Prisma.SortOrder
 }
 
 export type ProductsTransactionSumOrderByAggregateInput = {
@@ -426,6 +448,10 @@ export type ProductsTransactionUncheckedUpdateManyWithoutProductIdNestedInput = 
   deleteMany?: Prisma.ProductsTransactionScalarWhereInput | Prisma.ProductsTransactionScalarWhereInput[]
 }
 
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type ProductsTransactionCreateNestedManyWithoutTransactionIdInput = {
   create?: Prisma.XOR<Prisma.ProductsTransactionCreateWithoutTransactionIdInput, Prisma.ProductsTransactionUncheckedCreateWithoutTransactionIdInput> | Prisma.ProductsTransactionCreateWithoutTransactionIdInput[] | Prisma.ProductsTransactionUncheckedCreateWithoutTransactionIdInput[]
   connectOrCreate?: Prisma.ProductsTransactionCreateOrConnectWithoutTransactionIdInput | Prisma.ProductsTransactionCreateOrConnectWithoutTransactionIdInput[]
@@ -471,6 +497,7 @@ export type ProductsTransactionUncheckedUpdateManyWithoutTransactionIdNestedInpu
 export type ProductsTransactionCreateWithoutProductIdInput = {
   productQuantity: number
   totalPrice: number
+  transactionStatus?: string | null
   transactionId: Prisma.TransactionsCreateNestedOneWithoutProductsTransactionsInput
 }
 
@@ -479,6 +506,7 @@ export type ProductsTransactionUncheckedCreateWithoutProductIdInput = {
   productQuantity: number
   totalPrice: number
   transactionsId: number
+  transactionStatus?: string | null
 }
 
 export type ProductsTransactionCreateOrConnectWithoutProductIdInput = {
@@ -516,11 +544,13 @@ export type ProductsTransactionScalarWhereInput = {
   productQuantity?: Prisma.IntFilter<"ProductsTransaction"> | number
   totalPrice?: Prisma.IntFilter<"ProductsTransaction"> | number
   transactionsId?: Prisma.IntFilter<"ProductsTransaction"> | number
+  transactionStatus?: Prisma.StringNullableFilter<"ProductsTransaction"> | string | null
 }
 
 export type ProductsTransactionCreateWithoutTransactionIdInput = {
   productQuantity: number
   totalPrice: number
+  transactionStatus?: string | null
   productId: Prisma.ProductsCreateNestedOneWithoutProductsTransactionsInput
 }
 
@@ -529,6 +559,7 @@ export type ProductsTransactionUncheckedCreateWithoutTransactionIdInput = {
   productsId: number
   productQuantity: number
   totalPrice: number
+  transactionStatus?: string | null
 }
 
 export type ProductsTransactionCreateOrConnectWithoutTransactionIdInput = {
@@ -562,11 +593,13 @@ export type ProductsTransactionCreateManyProductIdInput = {
   productQuantity: number
   totalPrice: number
   transactionsId: number
+  transactionStatus?: string | null
 }
 
 export type ProductsTransactionUpdateWithoutProductIdInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transactionId?: Prisma.TransactionsUpdateOneRequiredWithoutProductsTransactionsNestedInput
 }
 
@@ -575,6 +608,7 @@ export type ProductsTransactionUncheckedUpdateWithoutProductIdInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   transactionsId?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProductsTransactionUncheckedUpdateManyWithoutProductIdInput = {
@@ -582,6 +616,7 @@ export type ProductsTransactionUncheckedUpdateManyWithoutProductIdInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   transactionsId?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProductsTransactionCreateManyTransactionIdInput = {
@@ -589,11 +624,13 @@ export type ProductsTransactionCreateManyTransactionIdInput = {
   productsId: number
   productQuantity: number
   totalPrice: number
+  transactionStatus?: string | null
 }
 
 export type ProductsTransactionUpdateWithoutTransactionIdInput = {
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.ProductsUpdateOneRequiredWithoutProductsTransactionsNestedInput
 }
 
@@ -602,6 +639,7 @@ export type ProductsTransactionUncheckedUpdateWithoutTransactionIdInput = {
   productsId?: Prisma.IntFieldUpdateOperationsInput | number
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ProductsTransactionUncheckedUpdateManyWithoutTransactionIdInput = {
@@ -609,6 +647,7 @@ export type ProductsTransactionUncheckedUpdateManyWithoutTransactionIdInput = {
   productsId?: Prisma.IntFieldUpdateOperationsInput | number
   productQuantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  transactionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -619,6 +658,7 @@ export type ProductsTransactionSelect<ExtArgs extends runtime.Types.Extensions.I
   productQuantity?: boolean
   totalPrice?: boolean
   transactionsId?: boolean
+  transactionStatus?: boolean
   productId?: boolean | Prisma.ProductsDefaultArgs<ExtArgs>
   transactionId?: boolean | Prisma.TransactionsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productsTransaction"]>
@@ -629,6 +669,7 @@ export type ProductsTransactionSelectCreateManyAndReturn<ExtArgs extends runtime
   productQuantity?: boolean
   totalPrice?: boolean
   transactionsId?: boolean
+  transactionStatus?: boolean
   productId?: boolean | Prisma.ProductsDefaultArgs<ExtArgs>
   transactionId?: boolean | Prisma.TransactionsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productsTransaction"]>
@@ -639,6 +680,7 @@ export type ProductsTransactionSelectUpdateManyAndReturn<ExtArgs extends runtime
   productQuantity?: boolean
   totalPrice?: boolean
   transactionsId?: boolean
+  transactionStatus?: boolean
   productId?: boolean | Prisma.ProductsDefaultArgs<ExtArgs>
   transactionId?: boolean | Prisma.TransactionsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productsTransaction"]>
@@ -649,9 +691,10 @@ export type ProductsTransactionSelectScalar = {
   productQuantity?: boolean
   totalPrice?: boolean
   transactionsId?: boolean
+  transactionStatus?: boolean
 }
 
-export type ProductsTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productsId" | "productQuantity" | "totalPrice" | "transactionsId", ExtArgs["result"]["productsTransaction"]>
+export type ProductsTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productsId" | "productQuantity" | "totalPrice" | "transactionsId" | "transactionStatus", ExtArgs["result"]["productsTransaction"]>
 export type ProductsTransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   productId?: boolean | Prisma.ProductsDefaultArgs<ExtArgs>
   transactionId?: boolean | Prisma.TransactionsDefaultArgs<ExtArgs>
@@ -677,6 +720,7 @@ export type $ProductsTransactionPayload<ExtArgs extends runtime.Types.Extensions
     productQuantity: number
     totalPrice: number
     transactionsId: number
+    transactionStatus: string | null
   }, ExtArgs["result"]["productsTransaction"]>
   composites: {}
 }
@@ -1107,6 +1151,7 @@ export interface ProductsTransactionFieldRefs {
   readonly productQuantity: Prisma.FieldRef<"ProductsTransaction", 'Int'>
   readonly totalPrice: Prisma.FieldRef<"ProductsTransaction", 'Int'>
   readonly transactionsId: Prisma.FieldRef<"ProductsTransaction", 'Int'>
+  readonly transactionStatus: Prisma.FieldRef<"ProductsTransaction", 'String'>
 }
     
 

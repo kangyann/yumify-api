@@ -1,13 +1,11 @@
 import bcrypt from "bcryptjs";
 import express, { Response } from "express";
-
 import PrismaConnect from "../lib/PrismaConnect.js";
 import { AppError, InterfaceAppError } from "../lib/AppError.js";
 import { TypeLanguage, InterfaceResponseByLanguage, InterfaceUserDatabase } from "../interface/api_auth.js";
 import { InterfaceUserCreate } from "../interface/api_create_user.js";
-import { connect } from "http2";
-import { error } from "console";
 import GenerateInvoice from "../lib/GenerateInvoice.js";
+import MidtransAppRun from "../lib/MidtransConnect.js";
 
 const app = express();
 app.use(express.json());
@@ -109,7 +107,7 @@ app.get("/api/product", async (req, res): Promise<Response> => {
 });
 
 app.post("/api/transaction", async (req, res): Promise<Response> => {
-   const data: { paymentName: string; productData: {}[]; totalPriceAll: number } = req.body;
+   const data: { paymentName: string; productData: {}[]; totalPriceAll: number; userId: number } = req.body;
 
    if (!data || !data.paymentName || !data.productData || !data.totalPriceAll) {
       return res.status(400).json({ message: "Invalid request body." });
@@ -143,14 +141,31 @@ app.post("/api/transaction", async (req, res): Promise<Response> => {
          ProductsTransaction.push({ productsId, productQuantity: p.productQty, totalPrice: p.totalPrice });
       }
 
+      const invoice: string = GenerateInvoice() as string;
+
+      const createPayment = await MidtransAppRun({
+         payment_type: "qris",
+         qris: {
+            acquirer: "gopay",
+         },
+         transaction_details: {
+            order_id: invoice,
+            gross_amount: data.totalPriceAll,
+         },
+      });
+
+      const paymentString: string = createPayment?.actions[1].url as string;
+
       if (ProductsTransaction.length) {
          const createTransactions = await PrismaConnect.transactions.create({
             data: {
                paymentsId: paymentId,
-               invoiceNumber: GenerateInvoice() as string,
-               paymentString: "",
+               invoiceNumber: invoice,
+               paymentString: paymentString,
                status: "PENDING",
+               usersId: data.userId,
                totalPrice: data.totalPriceAll,
+               expireAt: new Date(createPayment.expiry_time),
                productsTransactions: { createMany: { data: ProductsTransaction } },
             },
             select: {

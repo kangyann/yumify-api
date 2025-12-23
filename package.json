@@ -5,13 +5,15 @@
     "@prisma/adapter-pg": "^7.0.1",
     "@prisma/client": "^7.0.1",
     "bcryptjs": "^3.0.3",
-    "express": "5.1.0"
+    "express": "5.1.0",
+    "midtrans-client": "^1.4.3"
   },
   "devDependencies": {
     "@types/express": "5.0.0",
-    "@types/node": "20.11.17",
+    "@types/node": "^20.11.17",
     "dotenv": "^17.2.3",
     "prisma": "^7.0.1",
-    "typescript": "5.8.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

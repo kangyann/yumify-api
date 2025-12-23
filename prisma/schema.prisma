@@ -15,12 +15,13 @@ datasource db {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  username     String         @unique
+  password     String
+  createdAt    DateTime       @default(now())
+  transactions Transactions[]
 }
 
 model Products {
@@ -43,13 +44,14 @@ model Payments {
 }
 
 model ProductsTransaction {
-  id              Int          @id @default(autoincrement())
-  productId       Products     @relation(fields: [productsId], references: [id])
-  productsId      Int
-  productQuantity Int          @db.Integer
-  totalPrice      Int          @db.Integer
-  transactionId   Transactions @relation(fields: [transactionsId], references: [id])
-  transactionsId  Int
+  id                Int          @id @default(autoincrement())
+  productId         Products     @relation(fields: [productsId], references: [id])
+  productsId        Int
+  productQuantity   Int          @db.Integer
+  totalPrice        Int          @db.Integer
+  transactionId     Transactions @relation(fields: [transactionsId], references: [id])
+  transactionsId    Int
+  transactionStatus String?      @default("pending") @db.VarChar(16)
 }
 
 model Transactions {
@@ -58,6 +60,8 @@ model Transactions {
   paymentString        String                @db.Text
   paymentId            Payments              @relation(fields: [paymentsId], references: [id])
   paymentsId           Int
+  userId               Users                 @relation(fields: [usersId], references: [id])
+  usersId              Int
   totalPrice           Int                   @db.Integer
   status               String                @db.VarChar(16)
   createdAt            DateTime              @default(now())

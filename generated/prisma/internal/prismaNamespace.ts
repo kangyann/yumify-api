@@ -857,7 +857,8 @@ export const ProductsTransactionScalarFieldEnum = {
   productsId: 'productsId',
   productQuantity: 'productQuantity',
   totalPrice: 'totalPrice',
-  transactionsId: 'transactionsId'
+  transactionsId: 'transactionsId',
+  transactionStatus: 'transactionStatus'
 } as const
 
 export type ProductsTransactionScalarFieldEnum = (typeof ProductsTransactionScalarFieldEnum)[keyof typeof ProductsTransactionScalarFieldEnum]
@@ -868,6 +869,7 @@ export const TransactionsScalarFieldEnum = {
   invoiceNumber: 'invoiceNumber',
   paymentString: 'paymentString',
   paymentsId: 'paymentsId',
+  usersId: 'usersId',
   totalPrice: 'totalPrice',
   status: 'status',
   createdAt: 'createdAt',

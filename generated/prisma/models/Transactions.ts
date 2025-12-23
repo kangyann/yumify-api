@@ -29,12 +29,14 @@ export type AggregateTransactions = {
 export type TransactionsAvgAggregateOutputType = {
   id: number | null
   paymentsId: number | null
+  usersId: number | null
   totalPrice: number | null
 }
 
 export type TransactionsSumAggregateOutputType = {
   id: number | null
   paymentsId: number | null
+  usersId: number | null
   totalPrice: number | null
 }
 
@@ -43,6 +45,7 @@ export type TransactionsMinAggregateOutputType = {
   invoiceNumber: string | null
   paymentString: string | null
   paymentsId: number | null
+  usersId: number | null
   totalPrice: number | null
   status: string | null
   createdAt: Date | null
@@ -54,6 +57,7 @@ export type TransactionsMaxAggregateOutputType = {
   invoiceNumber: string | null
   paymentString: string | null
   paymentsId: number | null
+  usersId: number | null
   totalPrice: number | null
   status: string | null
   createdAt: Date | null
@@ -65,6 +69,7 @@ export type TransactionsCountAggregateOutputType = {
   invoiceNumber: number
   paymentString: number
   paymentsId: number
+  usersId: number
   totalPrice: number
   status: number
   createdAt: number
@@ -76,12 +81,14 @@ export type TransactionsCountAggregateOutputType = {
 export type TransactionsAvgAggregateInputType = {
   id?: true
   paymentsId?: true
+  usersId?: true
   totalPrice?: true
 }
 
 export type TransactionsSumAggregateInputType = {
   id?: true
   paymentsId?: true
+  usersId?: true
   totalPrice?: true
 }
 
@@ -90,6 +97,7 @@ export type TransactionsMinAggregateInputType = {
   invoiceNumber?: true
   paymentString?: true
   paymentsId?: true
+  usersId?: true
   totalPrice?: true
   status?: true
   createdAt?: true
@@ -101,6 +109,7 @@ export type TransactionsMaxAggregateInputType = {
   invoiceNumber?: true
   paymentString?: true
   paymentsId?: true
+  usersId?: true
   totalPrice?: true
   status?: true
   createdAt?: true
@@ -112,6 +121,7 @@ export type TransactionsCountAggregateInputType = {
   invoiceNumber?: true
   paymentString?: true
   paymentsId?: true
+  usersId?: true
   totalPrice?: true
   status?: true
   createdAt?: true
@@ -210,6 +220,7 @@ export type TransactionsGroupByOutputType = {
   invoiceNumber: string
   paymentString: string
   paymentsId: number
+  usersId: number
   totalPrice: number
   status: string
   createdAt: Date
@@ -244,11 +255,13 @@ export type TransactionsWhereInput = {
   invoiceNumber?: Prisma.StringFilter<"Transactions"> | string
   paymentString?: Prisma.StringFilter<"Transactions"> | string
   paymentsId?: Prisma.IntFilter<"Transactions"> | number
+  usersId?: Prisma.IntFilter<"Transactions"> | number
   totalPrice?: Prisma.IntFilter<"Transactions"> | number
   status?: Prisma.StringFilter<"Transactions"> | string
   createdAt?: Prisma.DateTimeFilter<"Transactions"> | Date | string
   expireAt?: Prisma.DateTimeNullableFilter<"Transactions"> | Date | string | null
   paymentId?: Prisma.XOR<Prisma.PaymentsScalarRelationFilter, Prisma.PaymentsWhereInput>
+  userId?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.UsersWhereInput>
   productsTransactions?: Prisma.ProductsTransactionListRelationFilter
 }
 
@@ -257,11 +270,13 @@ export type TransactionsOrderByWithRelationInput = {
   invoiceNumber?: Prisma.SortOrder
   paymentString?: Prisma.SortOrder
   paymentsId?: Prisma.SortOrder
+  usersId?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expireAt?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentId?: Prisma.PaymentsOrderByWithRelationInput
+  userId?: Prisma.UsersOrderByWithRelationInput
   productsTransactions?: Prisma.ProductsTransactionOrderByRelationAggregateInput
 }
 
@@ -273,11 +288,13 @@ export type TransactionsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TransactionsWhereInput | Prisma.TransactionsWhereInput[]
   paymentString?: Prisma.StringFilter<"Transactions"> | string
   paymentsId?: Prisma.IntFilter<"Transactions"> | number
+  usersId?: Prisma.IntFilter<"Transactions"> | number
   totalPrice?: Prisma.IntFilter<"Transactions"> | number
   status?: Prisma.StringFilter<"Transactions"> | string
   createdAt?: Prisma.DateTimeFilter<"Transactions"> | Date | string
   expireAt?: Prisma.DateTimeNullableFilter<"Transactions"> | Date | string | null
   paymentId?: Prisma.XOR<Prisma.PaymentsScalarRelationFilter, Prisma.PaymentsWhereInput>
+  userId?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.UsersWhereInput>
   productsTransactions?: Prisma.ProductsTransactionListRelationFilter
 }, "id" | "invoiceNumber">
 
@@ -286,6 +303,7 @@ export type TransactionsOrderByWithAggregationInput = {
   invoiceNumber?: Prisma.SortOrder
   paymentString?: Prisma.SortOrder
   paymentsId?: Prisma.SortOrder
+  usersId?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -305,6 +323,7 @@ export type TransactionsScalarWhereWithAggregatesInput = {
   invoiceNumber?: Prisma.StringWithAggregatesFilter<"Transactions"> | string
   paymentString?: Prisma.StringWithAggregatesFilter<"Transactions"> | string
   paymentsId?: Prisma.IntWithAggregatesFilter<"Transactions"> | number
+  usersId?: Prisma.IntWithAggregatesFilter<"Transactions"> | number
   totalPrice?: Prisma.IntWithAggregatesFilter<"Transactions"> | number
   status?: Prisma.StringWithAggregatesFilter<"Transactions"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Transactions"> | Date | string
@@ -319,6 +338,7 @@ export type TransactionsCreateInput = {
   createdAt?: Date | string
   expireAt?: Date | string | null
   paymentId: Prisma.PaymentsCreateNestedOneWithoutTransactionsInput
+  userId: Prisma.UsersCreateNestedOneWithoutTransactionsInput
   productsTransactions?: Prisma.ProductsTransactionCreateNestedManyWithoutTransactionIdInput
 }
 
@@ -327,6 +347,7 @@ export type TransactionsUncheckedCreateInput = {
   invoiceNumber: string
   paymentString: string
   paymentsId: number
+  usersId: number
   totalPrice: number
   status: string
   createdAt?: Date | string
@@ -342,6 +363,7 @@ export type TransactionsUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expireAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentId?: Prisma.PaymentsUpdateOneRequiredWithoutTransactionsNestedInput
+  userId?: Prisma.UsersUpdateOneRequiredWithoutTransactionsNestedInput
   productsTransactions?: Prisma.ProductsTransactionUpdateManyWithoutTransactionIdNestedInput
 }
 
@@ -350,6 +372,7 @@ export type TransactionsUncheckedUpdateInput = {
   invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
   paymentString?: Prisma.StringFieldUpdateOperationsInput | string
   paymentsId?: Prisma.IntFieldUpdateOperationsInput | number
+  usersId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -362,6 +385,7 @@ export type TransactionsCreateManyInput = {
   invoiceNumber: string
   paymentString: string
   paymentsId: number
+  usersId: number
   totalPrice: number
   status: string
   createdAt?: Date | string
@@ -382,6 +406,7 @@ export type TransactionsUncheckedUpdateManyInput = {
   invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
   paymentString?: Prisma.StringFieldUpdateOperationsInput | string
   paymentsId?: Prisma.IntFieldUpdateOperationsInput | number
+  usersId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -408,6 +433,7 @@ export type TransactionsCountOrderByAggregateInput = {
   invoiceNumber?: Prisma.SortOrder
   paymentString?: Prisma.SortOrder
   paymentsId?: Prisma.SortOrder
+  usersId?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -417,6 +443,7 @@ export type TransactionsCountOrderByAggregateInput = {
 export type TransactionsAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   paymentsId?: Prisma.SortOrder
+  usersId?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
 }
 
@@ -425,6 +452,7 @@ export type TransactionsMaxOrderByAggregateInput = {
   invoiceNumber?: Prisma.SortOrder
   paymentString?: Prisma.SortOrder
   paymentsId?: Prisma.SortOrder
+  usersId?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -436,6 +464,7 @@ export type TransactionsMinOrderByAggregateInput = {
   invoiceNumber?: Prisma.SortOrder
   paymentString?: Prisma.SortOrder
   paymentsId?: Prisma.SortOrder
+  usersId?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -445,7 +474,50 @@ export type TransactionsMinOrderByAggregateInput = {
 export type TransactionsSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   paymentsId?: Prisma.SortOrder
+  usersId?: Prisma.SortOrder
   totalPrice?: Prisma.SortOrder
+}
+
+export type TransactionsCreateNestedManyWithoutUserIdInput = {
+  create?: Prisma.XOR<Prisma.TransactionsCreateWithoutUserIdInput, Prisma.TransactionsUncheckedCreateWithoutUserIdInput> | Prisma.TransactionsCreateWithoutUserIdInput[] | Prisma.TransactionsUncheckedCreateWithoutUserIdInput[]
+  connectOrCreate?: Prisma.TransactionsCreateOrConnectWithoutUserIdInput | Prisma.TransactionsCreateOrConnectWithoutUserIdInput[]
+  createMany?: Prisma.TransactionsCreateManyUserIdInputEnvelope
+  connect?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+}
+
+export type TransactionsUncheckedCreateNestedManyWithoutUserIdInput = {
+  create?: Prisma.XOR<Prisma.TransactionsCreateWithoutUserIdInput, Prisma.TransactionsUncheckedCreateWithoutUserIdInput> | Prisma.TransactionsCreateWithoutUserIdInput[] | Prisma.TransactionsUncheckedCreateWithoutUserIdInput[]
+  connectOrCreate?: Prisma.TransactionsCreateOrConnectWithoutUserIdInput | Prisma.TransactionsCreateOrConnectWithoutUserIdInput[]
+  createMany?: Prisma.TransactionsCreateManyUserIdInputEnvelope
+  connect?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+}
+
+export type TransactionsUpdateManyWithoutUserIdNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionsCreateWithoutUserIdInput, Prisma.TransactionsUncheckedCreateWithoutUserIdInput> | Prisma.TransactionsCreateWithoutUserIdInput[] | Prisma.TransactionsUncheckedCreateWithoutUserIdInput[]
+  connectOrCreate?: Prisma.TransactionsCreateOrConnectWithoutUserIdInput | Prisma.TransactionsCreateOrConnectWithoutUserIdInput[]
+  upsert?: Prisma.TransactionsUpsertWithWhereUniqueWithoutUserIdInput | Prisma.TransactionsUpsertWithWhereUniqueWithoutUserIdInput[]
+  createMany?: Prisma.TransactionsCreateManyUserIdInputEnvelope
+  set?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  disconnect?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  delete?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  connect?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  update?: Prisma.TransactionsUpdateWithWhereUniqueWithoutUserIdInput | Prisma.TransactionsUpdateWithWhereUniqueWithoutUserIdInput[]
+  updateMany?: Prisma.TransactionsUpdateManyWithWhereWithoutUserIdInput | Prisma.TransactionsUpdateManyWithWhereWithoutUserIdInput[]
+  deleteMany?: Prisma.TransactionsScalarWhereInput | Prisma.TransactionsScalarWhereInput[]
+}
+
+export type TransactionsUncheckedUpdateManyWithoutUserIdNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionsCreateWithoutUserIdInput, Prisma.TransactionsUncheckedCreateWithoutUserIdInput> | Prisma.TransactionsCreateWithoutUserIdInput[] | Prisma.TransactionsUncheckedCreateWithoutUserIdInput[]
+  connectOrCreate?: Prisma.TransactionsCreateOrConnectWithoutUserIdInput | Prisma.TransactionsCreateOrConnectWithoutUserIdInput[]
+  upsert?: Prisma.TransactionsUpsertWithWhereUniqueWithoutUserIdInput | Prisma.TransactionsUpsertWithWhereUniqueWithoutUserIdInput[]
+  createMany?: Prisma.TransactionsCreateManyUserIdInputEnvelope
+  set?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  disconnect?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  delete?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  connect?: Prisma.TransactionsWhereUniqueInput | Prisma.TransactionsWhereUniqueInput[]
+  update?: Prisma.TransactionsUpdateWithWhereUniqueWithoutUserIdInput | Prisma.TransactionsUpdateWithWhereUniqueWithoutUserIdInput[]
+  updateMany?: Prisma.TransactionsUpdateManyWithWhereWithoutUserIdInput | Prisma.TransactionsUpdateManyWithWhereWithoutUserIdInput[]
+  deleteMany?: Prisma.TransactionsScalarWhereInput | Prisma.TransactionsScalarWhereInput[]
 }
 
 export type TransactionsCreateNestedManyWithoutPaymentIdInput = {
@@ -508,6 +580,70 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type TransactionsCreateWithoutUserIdInput = {
+  invoiceNumber: string
+  paymentString: string
+  totalPrice: number
+  status: string
+  createdAt?: Date | string
+  expireAt?: Date | string | null
+  paymentId: Prisma.PaymentsCreateNestedOneWithoutTransactionsInput
+  productsTransactions?: Prisma.ProductsTransactionCreateNestedManyWithoutTransactionIdInput
+}
+
+export type TransactionsUncheckedCreateWithoutUserIdInput = {
+  id?: number
+  invoiceNumber: string
+  paymentString: string
+  paymentsId: number
+  totalPrice: number
+  status: string
+  createdAt?: Date | string
+  expireAt?: Date | string | null
+  productsTransactions?: Prisma.ProductsTransactionUncheckedCreateNestedManyWithoutTransactionIdInput
+}
+
+export type TransactionsCreateOrConnectWithoutUserIdInput = {
+  where: Prisma.TransactionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransactionsCreateWithoutUserIdInput, Prisma.TransactionsUncheckedCreateWithoutUserIdInput>
+}
+
+export type TransactionsCreateManyUserIdInputEnvelope = {
+  data: Prisma.TransactionsCreateManyUserIdInput | Prisma.TransactionsCreateManyUserIdInput[]
+  skipDuplicates?: boolean
+}
+
+export type TransactionsUpsertWithWhereUniqueWithoutUserIdInput = {
+  where: Prisma.TransactionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.TransactionsUpdateWithoutUserIdInput, Prisma.TransactionsUncheckedUpdateWithoutUserIdInput>
+  create: Prisma.XOR<Prisma.TransactionsCreateWithoutUserIdInput, Prisma.TransactionsUncheckedCreateWithoutUserIdInput>
+}
+
+export type TransactionsUpdateWithWhereUniqueWithoutUserIdInput = {
+  where: Prisma.TransactionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.TransactionsUpdateWithoutUserIdInput, Prisma.TransactionsUncheckedUpdateWithoutUserIdInput>
+}
+
+export type TransactionsUpdateManyWithWhereWithoutUserIdInput = {
+  where: Prisma.TransactionsScalarWhereInput
+  data: Prisma.XOR<Prisma.TransactionsUpdateManyMutationInput, Prisma.TransactionsUncheckedUpdateManyWithoutUserIdInput>
+}
+
+export type TransactionsScalarWhereInput = {
+  AND?: Prisma.TransactionsScalarWhereInput | Prisma.TransactionsScalarWhereInput[]
+  OR?: Prisma.TransactionsScalarWhereInput[]
+  NOT?: Prisma.TransactionsScalarWhereInput | Prisma.TransactionsScalarWhereInput[]
+  id?: Prisma.IntFilter<"Transactions"> | number
+  invoiceNumber?: Prisma.StringFilter<"Transactions"> | string
+  paymentString?: Prisma.StringFilter<"Transactions"> | string
+  paymentsId?: Prisma.IntFilter<"Transactions"> | number
+  usersId?: Prisma.IntFilter<"Transactions"> | number
+  totalPrice?: Prisma.IntFilter<"Transactions"> | number
+  status?: Prisma.StringFilter<"Transactions"> | string
+  createdAt?: Prisma.DateTimeFilter<"Transactions"> | Date | string
+  expireAt?: Prisma.DateTimeNullableFilter<"Transactions"> | Date | string | null
+}
+
 export type TransactionsCreateWithoutPaymentIdInput = {
   invoiceNumber: string
   paymentString: string
@@ -515,6 +651,7 @@ export type TransactionsCreateWithoutPaymentIdInput = {
   status: string
   createdAt?: Date | string
   expireAt?: Date | string | null
+  userId: Prisma.UsersCreateNestedOneWithoutTransactionsInput
   productsTransactions?: Prisma.ProductsTransactionCreateNestedManyWithoutTransactionIdInput
 }
 
@@ -522,6 +659,7 @@ export type TransactionsUncheckedCreateWithoutPaymentIdInput = {
   id?: number
   invoiceNumber: string
   paymentString: string
+  usersId: number
   totalPrice: number
   status: string
   createdAt?: Date | string
@@ -555,20 +693,6 @@ export type TransactionsUpdateManyWithWhereWithoutPaymentIdInput = {
   data: Prisma.XOR<Prisma.TransactionsUpdateManyMutationInput, Prisma.TransactionsUncheckedUpdateManyWithoutPaymentIdInput>
 }
 
-export type TransactionsScalarWhereInput = {
-  AND?: Prisma.TransactionsScalarWhereInput | Prisma.TransactionsScalarWhereInput[]
-  OR?: Prisma.TransactionsScalarWhereInput[]
-  NOT?: Prisma.TransactionsScalarWhereInput | Prisma.TransactionsScalarWhereInput[]
-  id?: Prisma.IntFilter<"Transactions"> | number
-  invoiceNumber?: Prisma.StringFilter<"Transactions"> | string
-  paymentString?: Prisma.StringFilter<"Transactions"> | string
-  paymentsId?: Prisma.IntFilter<"Transactions"> | number
-  totalPrice?: Prisma.IntFilter<"Transactions"> | number
-  status?: Prisma.StringFilter<"Transactions"> | string
-  createdAt?: Prisma.DateTimeFilter<"Transactions"> | Date | string
-  expireAt?: Prisma.DateTimeNullableFilter<"Transactions"> | Date | string | null
-}
-
 export type TransactionsCreateWithoutProductsTransactionsInput = {
   invoiceNumber: string
   paymentString: string
@@ -577,6 +701,7 @@ export type TransactionsCreateWithoutProductsTransactionsInput = {
   createdAt?: Date | string
   expireAt?: Date | string | null
   paymentId: Prisma.PaymentsCreateNestedOneWithoutTransactionsInput
+  userId: Prisma.UsersCreateNestedOneWithoutTransactionsInput
 }
 
 export type TransactionsUncheckedCreateWithoutProductsTransactionsInput = {
@@ -584,6 +709,7 @@ export type TransactionsUncheckedCreateWithoutProductsTransactionsInput = {
   invoiceNumber: string
   paymentString: string
   paymentsId: number
+  usersId: number
   totalPrice: number
   status: string
   createdAt?: Date | string
@@ -614,9 +740,56 @@ export type TransactionsUpdateWithoutProductsTransactionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expireAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentId?: Prisma.PaymentsUpdateOneRequiredWithoutTransactionsNestedInput
+  userId?: Prisma.UsersUpdateOneRequiredWithoutTransactionsNestedInput
 }
 
 export type TransactionsUncheckedUpdateWithoutProductsTransactionsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentString?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentsId?: Prisma.IntFieldUpdateOperationsInput | number
+  usersId?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expireAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TransactionsCreateManyUserIdInput = {
+  id?: number
+  invoiceNumber: string
+  paymentString: string
+  paymentsId: number
+  totalPrice: number
+  status: string
+  createdAt?: Date | string
+  expireAt?: Date | string | null
+}
+
+export type TransactionsUpdateWithoutUserIdInput = {
+  invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentString?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expireAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentId?: Prisma.PaymentsUpdateOneRequiredWithoutTransactionsNestedInput
+  productsTransactions?: Prisma.ProductsTransactionUpdateManyWithoutTransactionIdNestedInput
+}
+
+export type TransactionsUncheckedUpdateWithoutUserIdInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentString?: Prisma.StringFieldUpdateOperationsInput | string
+  paymentsId?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expireAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  productsTransactions?: Prisma.ProductsTransactionUncheckedUpdateManyWithoutTransactionIdNestedInput
+}
+
+export type TransactionsUncheckedUpdateManyWithoutUserIdInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
   paymentString?: Prisma.StringFieldUpdateOperationsInput | string
@@ -631,6 +804,7 @@ export type TransactionsCreateManyPaymentIdInput = {
   id?: number
   invoiceNumber: string
   paymentString: string
+  usersId: number
   totalPrice: number
   status: string
   createdAt?: Date | string
@@ -644,6 +818,7 @@ export type TransactionsUpdateWithoutPaymentIdInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expireAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  userId?: Prisma.UsersUpdateOneRequiredWithoutTransactionsNestedInput
   productsTransactions?: Prisma.ProductsTransactionUpdateManyWithoutTransactionIdNestedInput
 }
 
@@ -651,6 +826,7 @@ export type TransactionsUncheckedUpdateWithoutPaymentIdInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
   paymentString?: Prisma.StringFieldUpdateOperationsInput | string
+  usersId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -662,6 +838,7 @@ export type TransactionsUncheckedUpdateManyWithoutPaymentIdInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   invoiceNumber?: Prisma.StringFieldUpdateOperationsInput | string
   paymentString?: Prisma.StringFieldUpdateOperationsInput | string
+  usersId?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -704,11 +881,13 @@ export type TransactionsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   invoiceNumber?: boolean
   paymentString?: boolean
   paymentsId?: boolean
+  usersId?: boolean
   totalPrice?: boolean
   status?: boolean
   createdAt?: boolean
   expireAt?: boolean
   paymentId?: boolean | Prisma.PaymentsDefaultArgs<ExtArgs>
+  userId?: boolean | Prisma.UsersDefaultArgs<ExtArgs>
   productsTransactions?: boolean | Prisma.Transactions$productsTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.TransactionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
@@ -718,11 +897,13 @@ export type TransactionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   invoiceNumber?: boolean
   paymentString?: boolean
   paymentsId?: boolean
+  usersId?: boolean
   totalPrice?: boolean
   status?: boolean
   createdAt?: boolean
   expireAt?: boolean
   paymentId?: boolean | Prisma.PaymentsDefaultArgs<ExtArgs>
+  userId?: boolean | Prisma.UsersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type TransactionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -730,11 +911,13 @@ export type TransactionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   invoiceNumber?: boolean
   paymentString?: boolean
   paymentsId?: boolean
+  usersId?: boolean
   totalPrice?: boolean
   status?: boolean
   createdAt?: boolean
   expireAt?: boolean
   paymentId?: boolean | Prisma.PaymentsDefaultArgs<ExtArgs>
+  userId?: boolean | Prisma.UsersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type TransactionsSelectScalar = {
@@ -742,29 +925,34 @@ export type TransactionsSelectScalar = {
   invoiceNumber?: boolean
   paymentString?: boolean
   paymentsId?: boolean
+  usersId?: boolean
   totalPrice?: boolean
   status?: boolean
   createdAt?: boolean
   expireAt?: boolean
 }
 
-export type TransactionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoiceNumber" | "paymentString" | "paymentsId" | "totalPrice" | "status" | "createdAt" | "expireAt", ExtArgs["result"]["transactions"]>
+export type TransactionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "invoiceNumber" | "paymentString" | "paymentsId" | "usersId" | "totalPrice" | "status" | "createdAt" | "expireAt", ExtArgs["result"]["transactions"]>
 export type TransactionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   paymentId?: boolean | Prisma.PaymentsDefaultArgs<ExtArgs>
+  userId?: boolean | Prisma.UsersDefaultArgs<ExtArgs>
   productsTransactions?: boolean | Prisma.Transactions$productsTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.TransactionsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TransactionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   paymentId?: boolean | Prisma.PaymentsDefaultArgs<ExtArgs>
+  userId?: boolean | Prisma.UsersDefaultArgs<ExtArgs>
 }
 export type TransactionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   paymentId?: boolean | Prisma.PaymentsDefaultArgs<ExtArgs>
+  userId?: boolean | Prisma.UsersDefaultArgs<ExtArgs>
 }
 
 export type $TransactionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Transactions"
   objects: {
     paymentId: Prisma.$PaymentsPayload<ExtArgs>
+    userId: Prisma.$UsersPayload<ExtArgs>
     productsTransactions: Prisma.$ProductsTransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -772,6 +960,7 @@ export type $TransactionsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     invoiceNumber: string
     paymentString: string
     paymentsId: number
+    usersId: number
     totalPrice: number
     status: string
     createdAt: Date
@@ -1171,6 +1360,7 @@ readonly fields: TransactionsFieldRefs;
 export interface Prisma__TransactionsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   paymentId<T extends Prisma.PaymentsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PaymentsDefaultArgs<ExtArgs>>): Prisma.Prisma__PaymentsClient<runtime.Types.Result.GetResult<Prisma.$PaymentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  userId<T extends Prisma.UsersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UsersDefaultArgs<ExtArgs>>): Prisma.Prisma__UsersClient<runtime.Types.Result.GetResult<Prisma.$UsersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   productsTransactions<T extends Prisma.Transactions$productsTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transactions$productsTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductsTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1205,6 +1395,7 @@ export interface TransactionsFieldRefs {
   readonly invoiceNumber: Prisma.FieldRef<"Transactions", 'String'>
   readonly paymentString: Prisma.FieldRef<"Transactions", 'String'>
   readonly paymentsId: Prisma.FieldRef<"Transactions", 'Int'>
+  readonly usersId: Prisma.FieldRef<"Transactions", 'Int'>
   readonly totalPrice: Prisma.FieldRef<"Transactions", 'Int'>
   readonly status: Prisma.FieldRef<"Transactions", 'String'>
   readonly createdAt: Prisma.FieldRef<"Transactions", 'DateTime'>
