@@ -5,7 +5,7 @@ import { AppError, InterfaceAppError } from "../lib/AppError.js";
 import { TypeLanguage, InterfaceResponseByLanguage, InterfaceUserDatabase } from "../interface/api_auth.js";
 import { InterfaceUserCreate } from "../interface/api_create_user.js";
 import GenerateInvoice from "../lib/GenerateInvoice.js";
-import MidtransAppRun from "../lib/MidtransConnect.js";
+import MidtransAppRun, { MidtransValidateSignature } from "../lib/MidtransConnect.js";
 
 const app = express();
 app.use(express.json());
@@ -106,10 +106,68 @@ app.get("/api/product", async (req, res): Promise<Response> => {
    }
 });
 
+app.get("/api/transactions/status", async (req, res): Promise<Response> => {
+   const { invoiceNumber } = req.query;
+   console.log("Received request for transaction status with invoiceNumber:", invoiceNumber);
+   if (!invoiceNumber) {
+      return res.status(400).json({ message: "Invoice number is required." });
+   }
+   try {
+      console.log("Checking transaction status for invoiceNumber:", invoiceNumber);
+      const transactions = await PrismaConnect.transactions.findFirst({
+         where: { invoiceNumber: invoiceNumber as string },
+         select: {
+            invoiceNumber: true,
+            status: true,
+         }
+      });
+      if (!transactions) {
+         console.log("Transaction not found for invoiceNumber:", invoiceNumber);
+         return res.status(404).json({ message: "Transaction not found." });
+      }
+      console.log("Transaction status checked for invoiceNumber:", invoiceNumber);
+      return res.status(200).json({ message: "OK", data: transactions });
+   } catch (error) {
+      console.log("Error checking transaction status for invoiceNumber:", invoiceNumber, error);
+      return res.status(500).json({ message: "Internal Server Error.", hint: error });
+   }
+});
+
+app.post("/api/webhook", async (req, res): Promise<Response> => {
+   const { order_id, status_code, gross_amount, signature_key, transaction_status } = req.body;
+   console.log("Received webhook for order_id:", order_id);
+   try {
+      const validate = await MidtransValidateSignature({
+         grossAmount: gross_amount,
+         orderId: order_id,
+         statusCode: status_code,
+         trueSignature: signature_key,
+      });
+      if (!validate) {
+         console.log("Invalid signature. Aborting transaction update.");
+         return res.status(400).json({ message: "Invalid signature." });
+      }
+      console.log("Valid signature. Processing transaction update...");
+      const update = await PrismaConnect.transactions.update({
+         where: { invoiceNumber: order_id },
+         data: { status: transaction_status.toUpperCase() },
+      });
+      if (!update) {
+         console.log("Transaction not found for update.");
+         return res.status(404).json({ message: "Transaction not found." });
+      }
+      console.log("Transaction updated:", update);
+      return res.status(200).json({ message: "Transaction updated.", data: update });
+   } catch (error) {
+      console.log("Error processing webhook:", error);
+      return res.status(500).json({ message: "Internal Server Error.", hint: error });
+   }
+});
+
 app.post("/api/transaction", async (req, res): Promise<Response> => {
    const data: { paymentName: string; productData: {}[]; totalPriceAll: number; userId: number } = req.body;
 
-   if (!data || !data.paymentName || !data.productData || !data.totalPriceAll) {
+   if (!data || !data.userId || !data.paymentName || !data.productData || !data.totalPriceAll) {
       return res.status(400).json({ message: "Invalid request body." });
    }
 
@@ -154,7 +212,7 @@ app.post("/api/transaction", async (req, res): Promise<Response> => {
          },
       });
 
-      const paymentString: string = createPayment?.actions[1].url as string;
+      const paymentString: string = createPayment?.actions[0].url as string;
 
       if (ProductsTransaction.length) {
          const createTransactions = await PrismaConnect.transactions.create({

@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import midtrans from "midtrans-client";
+import crypto from "crypto";
 dotenv.config();
 
 class MidtransConnect {
@@ -32,6 +33,21 @@ class MidtransConnect {
    }
 }
 
+interface InterfaceMidtransValidateSignature {
+   orderId: string;
+   statusCode: string;
+   grossAmount: string;
+   trueSignature: string;
+}
+export async function MidtransValidateSignature(props: InterfaceMidtransValidateSignature): Promise<boolean> {
+   const { orderId, statusCode, grossAmount, trueSignature } = props;
+   const serverKey = process.env.MIDTRANS_SERVER_KEY as string;
+
+   const _ = orderId + statusCode + grossAmount + serverKey;
+   const hash = crypto.createHash("sha512").update(_).digest("hex");
+   if (trueSignature !== hash) return false;
+   return true;
+}
 export default async function MidtransAppRun(params: any): Promise<any> {
    const isProduction = process.env.APP_PRODUCTION === "true",
       serverKey = process.env.MIDTRANS_SERVER_KEY as string,
@@ -57,4 +73,3 @@ export default async function MidtransAppRun(params: any): Promise<any> {
  * });
  * 
  END OF EXAMPLE **/
-
