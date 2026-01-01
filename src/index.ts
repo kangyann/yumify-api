@@ -50,7 +50,7 @@ app.post("/api/auth", async (req, res): Promise<Response> => {
             "INVALID_PASSWORD"
          ) as InterfaceAppError;
       }
-      const { password, id, ...user }: InterfaceUserDatabase = finduser as InterfaceUserDatabase;
+      const { password,...user }: InterfaceUserDatabase = finduser as InterfaceUserDatabase;
 
       return res.status(200).json({ message: responseByLanguage[q.lang as TypeLanguage].success_login, data: user });
    } catch (error) {
