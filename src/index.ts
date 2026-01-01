@@ -10,8 +10,13 @@ import MidtransAppRun, { MidtransValidateSignature } from "../lib/MidtransConnec
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (_req, res) => {
-   res.send("Hello Express!");
+   const { page } = _req.query;
+   if ((page as string) == "chef") {
+      return res.sendFile("chef.html", { root: "./public" });
+   }
+   return res.send("Hello Express!");
 });
 
 // Route AUTH
@@ -91,6 +96,22 @@ app.post("/api/product/create", async (req, res): Promise<Response> => {
    }
 });
 
+app.patch("/api/product/update", async (req, res): Promise<Response> => {
+   const { invoiceNumber, productsId, status } = req.body;
+
+   try {
+      const updateproduct = await PrismaConnect.transactions.update({
+         where: { invoiceNumber },
+         data: {
+            productsTransactions: { updateMany: { where: { productsId }, data: { transactionStatus: status } } },
+         },
+         include: { productsTransactions: true },
+      });
+      return res.status(200).json({ message: "OK", data: updateproduct });
+   } catch (error) {
+      return res.status(500).json({ message: "Internal Server Error.", hint: error });
+   }
+});
 // Route Get Products
 app.get("/api/product", async (req, res): Promise<Response> => {
    try {
@@ -119,7 +140,7 @@ app.get("/api/transactions/status", async (req, res): Promise<Response> => {
          select: {
             invoiceNumber: true,
             status: true,
-         }
+         },
       });
       if (!transactions) {
          console.log("Transaction not found for invoiceNumber:", invoiceNumber);
@@ -247,12 +268,27 @@ app.post("/api/transaction", async (req, res): Promise<Response> => {
 });
 
 app.get("/api/transaction", async (req, res): Promise<Response> => {
-   const { invoices } = req.query;
+   const { invoices, get } = req.query;
 
    if (!invoices) {
       return res.status(400).json({ message: "Invoices query is required." });
    }
 
+   if (invoices && (get as string) == "all") {
+      try {
+         const transactions = await PrismaConnect.transactions.findMany({
+            include: {
+               paymentId: true,
+               productsTransactions: {
+                  include: { productId: true },
+               },
+            },
+         });
+         return res.status(200).json({ message: "Get All Transactions Successfully.", data: transactions });
+      } catch (error) {
+         return res.status(500).json({ message: "Internal Server Error.", hint: error });
+      }
+   }
    try {
       const transaction = await PrismaConnect.transactions.findFirstOrThrow({
          where: { invoiceNumber: invoices as string },
