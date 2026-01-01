@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (_req, res) => {
    const { page } = _req.query;
    if ((page as string) == "chef") {
-      return res.sendFile("chef.html", { root: "./public" });
+     return res.sendFile(process.cwd() + "/public/chef.html");
    }
    return res.send("Hello Express!");
 });
