@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous">
+        <title>Document</title>
+
+        <style>
+            body{
+                display: flex;
+                justify-content: center;
+                font-size: 14px;
+            }
+            .container {
+                padding: 12px 36px;
+                margin: 8px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <!-- MODAL DETAILS -->
+            <div class="modal modal-lg fade" id="DetailsModal"
+                tabindex="-1"
+                aria-labelledby="DetailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5"
+                                id="DetailsModalLabel"></h1>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">PRODUCT ID</th>
+                                        <th scope="col">PRODUCT NAME</th>
+                                        <th scope="col">QUANTITY</th>
+                                        <th scope="col">STATUS</th>
+                                        <th scope="col">TOTAL PRICE</th>
+                                        <th scope="col">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="modal_data_table">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL -->
+            <!-- MODAL UPDATE TRANSACTION -->
+            <div class="modal modal-lg fade" id="UpdateModal"
+                tabindex="-1"
+                aria-labelledby="UpdateModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5"
+                                id="UpdateModalLabel"></h1>
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL -->
+            <h1>Chef Confirmation</h1>
+            <div class>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">ORDER ID</th>
+                            <th scope="col">PAYMENT</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col">CREATED AT</th>
+                            <th scope="col">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data_table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+    <script>
+
+        const url = "http://localhost:3000";
+        const dataTable = document.getElementById("data_table");
+        let data;
+        fetch(`${url}/api/transaction?invoices=none&get=all`).then(res => res.json()).then(r => {
+            data = r.data
+            r.data.forEach(transaction => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <th scope="row">${transaction.id}</th>
+                <td>${transaction.invoiceNumber}</td>
+                <td>${transaction.paymentId.paymentName}</td>
+                <td class="${transaction.status.toUpperCase() === "PENDING" ? "bg-warning" : "bg-success"} fw-bold text-center text-white">${transaction.status.toUpperCase()}</td>
+                <td>${new Date(transaction.createdAt).toLocaleString()}</td>
+                <td>
+                <div class="d-flex gap-3 text-nowrap">
+                    <button class="btn btn-primary btn-sm" onclick="viewDetails('${transaction.invoiceNumber}')" data-bs-target="#DetailsModal"
+                    data-bs-toggle="modal" >Detail Products</button>
+                </div>
+                </td>
+            `;
+
+            dataTable.appendChild(tr);
+        });
+        })
+
+        const viewDetails = (invoiceNumber) => {
+            let index = 1;
+            const dataDetailsTable = document.getElementById("modal_data_table");
+            const modalTitle = document.getElementById("DetailsModalLabel");
+            const transaction = data.find(t => t.invoiceNumber === invoiceNumber);
+
+            modalTitle.innerText = `Details Products for Invoice: ${invoiceNumber}`;
+            if (dataDetailsTable.getElementsByTagName("tr")){
+                dataDetailsTable.innerHTML = "";
+            }
+            if (transaction) {
+                transaction.productsTransactions.forEach(pt => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <th scope="row">${index++}</th>
+                        <td>${pt.productId.productName}</td>
+                        <td>${pt.productQuantity}</td>
+                        <td class="${pt.transactionStatus.toUpperCase() === "PENDING" ? "bg-warning" : "bg-success"} fw-bold text-center text-white">${pt.transactionStatus.toUpperCase()}</td>
+                        <td>${pt.totalPrice}</td>
+                        <td><button  class="btn btn-warning text-white fw-bold btn-sm" onClick="updateProductStatus('${invoiceNumber}', ${pt.productsId})">Update</button></td>
+                    `;
+            
+                    dataDetailsTable.appendChild(tr);
+                });
+
+            } else {
+            }
+        
+        };
+        const updateProductStatus = (invoiceNumber,id) => {
+            console.log("Updating product status for invoice:", invoiceNumber, "product ID:", id);
+            fetch(`${url}/api/product/update`,{
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    invoiceNumber: invoiceNumber,
+                    status: "COMPLETED",
+                    productsId: id
+                })
+            }).then(res => res.json()).then(data => {
+                console.log(data);
+                if(data.message == "OK"){
+                    alert("Product status updated successfully.");
+                    location.reload();
+                }
+            }).catch(err => {
+                console.error("Error:", err);
+            });
+        };
+
+       
+</script>
+</html>
