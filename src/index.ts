@@ -11,12 +11,12 @@ import path from "path";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "../public")));
 
+app.get("/chef", (_req, res) => {
+   res.sendFile(path.join(__dirname, "../public/chef.html"));
+});
 app.get("/", (_req, res) => {
-   const { page } = _req.query;
-   if ((page as string) == "chef") {
-        return res.sendFile(path.join("..", "public", "chef.html"));
-   }
    return res.send("Hello Express!");
 });
 
@@ -51,7 +51,7 @@ app.post("/api/auth", async (req, res): Promise<Response> => {
             "INVALID_PASSWORD"
          ) as InterfaceAppError;
       }
-      const { password,...user }: InterfaceUserDatabase = finduser as InterfaceUserDatabase;
+      const { password, ...user }: InterfaceUserDatabase = finduser as InterfaceUserDatabase;
 
       return res.status(200).json({ message: responseByLanguage[q.lang as TypeLanguage].success_login, data: user });
    } catch (error) {
